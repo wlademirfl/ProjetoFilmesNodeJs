@@ -6,6 +6,7 @@ module.exports = {
         const idFilmes = resq.headers.authorization;
         const comentarios = await conexao('comentarios')
             .join('filmes','filmes.idFilmes', '=', 'comentarios.idFilmes')
+            .where('comentarios.idFilmes',idFilmes)
             .select(['comentarios.*','filmes.titulo']);
     
         return resp.json(comentarios);
@@ -35,10 +36,6 @@ module.exports = {
             return resp.status(401).json({erro: 'Operação não permitida.'});
         
         await conexao('comentarios').where('idComentarios', id).delete();
-        return resp.status(204).send();
-        
-
+        return resp.status(204).send();        
     },
-
-
 };

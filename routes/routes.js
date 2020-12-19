@@ -5,8 +5,7 @@
     DELETE: deleta informações no back-end
 */
 
-const express = require('express');
-const routes = express.Router();
+const routes = require('express').Router();
 const filmesController = require('../controllers/filmesController');
 const comentariosController = require('../controllers/comentariosController');
 const listagemController = require('../controllers/listagemController');

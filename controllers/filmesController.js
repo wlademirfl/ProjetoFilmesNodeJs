@@ -5,14 +5,13 @@
     dentro do post:
     const id = crypto.randomBytes(4).toString('HEX').
 */
-
 const conexao = require('../servers/conexao');
 
 module.exports = {
-    //#region "inserir"
+
     async inserirFilmes(resq,resp) { 
         const { titulo, genero, ano, duracao, nota, tipo, favorito, sinopse, capa} = resq.body;
-     
+
         const [id] = await conexao('filmes').insert({
             titulo, 
             genero,
@@ -24,15 +23,13 @@ module.exports = {
             sinopse, 
             capa
         });
-    
-        return resp.json({ id });
+        return resp.json({ });
     },
-    //#endregion
 
-    async favoritarFilmes(resq,resp) { 
+    async favoritarFilmes(resq,resp) {
 
         const { favoritar } = resq.params;
-        const idFilmes = resq.headers.authorization;
+        const idFilmes = resq.body.headers.authorization;
         
         const filmes = await conexao('filmes')
         .where('idFilmes',idFilmes)
@@ -46,12 +43,9 @@ module.exports = {
             .update({
                 favorito: favoritar
             });
-
             return resp.status(204).send();
         }
         else
-            console.log('entrou aqui')
             return resp.status(401).json({erro: 'Operação não permitida.'});
-
     } 
 };
